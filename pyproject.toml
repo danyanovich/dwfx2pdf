@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dwfx2pdf"
+version = "0.2.0"
+description = "Fast, concurrent DWFX to PDF converter using libgxps"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "watchdog>=3.0.0",
+    "tqdm>=4.65.0"
+]
+
+[project.scripts]
+dwfx2pdf = "dwfx_to_pdf:main"
