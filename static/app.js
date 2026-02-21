@@ -1,6 +1,44 @@
 (() => {
     "use strict";
 
+    // ==================== Theme Toggle ====================
+
+    const themeToggle = document.getElementById("theme-toggle");
+    const root = document.documentElement;
+
+    function getSystemTheme() {
+        return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    }
+
+    function getEffectiveTheme() {
+        return localStorage.getItem("dwfx2pdf-theme") || "system";
+    }
+
+    function applyTheme(pref) {
+        if (pref === "system") {
+            root.removeAttribute("data-theme");
+        } else {
+            root.setAttribute("data-theme", pref);
+        }
+    }
+
+    // Initialize theme on load
+    applyTheme(getEffectiveTheme());
+
+    themeToggle.addEventListener("click", () => {
+        const current = getEffectiveTheme();
+        const effectiveNow = current === "system" ? getSystemTheme() : current;
+        const next = effectiveNow === "dark" ? "light" : "dark";
+        localStorage.setItem("dwfx2pdf-theme", next);
+        applyTheme(next);
+    });
+
+    // Listen for system theme changes (update if user is on "system")
+    window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => {
+        if (getEffectiveTheme() === "system") {
+            applyTheme("system");
+        }
+    });
     // DOM elements
     const dropzone = document.getElementById("dropzone");
     const fileInput = document.getElementById("file-input");

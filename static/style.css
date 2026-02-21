@@ -24,6 +24,74 @@
     --radius: 16px;
     --radius-sm: 10px;
     --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --dropzone-dash: rgba(255, 255, 255, 0.1);
+    --glow1: rgba(99, 102, 241, 0.15);
+    --glow2: rgba(168, 85, 247, 0.12);
+    --glow3: rgba(56, 189, 248, 0.08);
+    --drag-bg: rgba(99, 102, 241, 0.06);
+    --track-bg: rgba(255, 255, 255, 0.06);
+    --shimmer: rgba(255, 255, 255, 0.3);
+    --btn-hover-bg: rgba(255, 255, 255, 0.1);
+    --btn-dl-border: rgba(99, 102, 241, 0.25);
+    --btn-dl-hover-bg: rgba(99, 102, 241, 0.1);
+    --icon-pdf-bg: rgba(239, 68, 68, 0.12);
+}
+
+/* ========== Light Theme ========== */
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+        --bg: #f4f6fb;
+        --surface: rgba(255, 255, 255, 0.75);
+        --surface-hover: rgba(255, 255, 255, 0.9);
+        --border: rgba(0, 0, 0, 0.08);
+        --border-hover: rgba(0, 0, 0, 0.15);
+        --text: #1e293b;
+        --text-muted: #475569;
+        --text-dim: #94a3b8;
+        --accent: #6366f1;
+        --accent-bright: #8b5cf6;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --success: #059669;
+        --error: #dc2626;
+        --dropzone-dash: rgba(0, 0, 0, 0.15);
+        --glow1: rgba(99, 102, 241, 0.08);
+        --glow2: rgba(168, 85, 247, 0.06);
+        --glow3: rgba(56, 189, 248, 0.05);
+        --drag-bg: rgba(99, 102, 241, 0.05);
+        --track-bg: rgba(0, 0, 0, 0.06);
+        --shimmer: rgba(255, 255, 255, 0.5);
+        --btn-hover-bg: rgba(0, 0, 0, 0.05);
+        --btn-dl-border: rgba(99, 102, 241, 0.3);
+        --btn-dl-hover-bg: rgba(99, 102, 241, 0.08);
+        --icon-pdf-bg: rgba(239, 68, 68, 0.1);
+    }
+}
+
+[data-theme="light"] {
+    --bg: #f4f6fb;
+    --surface: rgba(255, 255, 255, 0.75);
+    --surface-hover: rgba(255, 255, 255, 0.9);
+    --border: rgba(0, 0, 0, 0.08);
+    --border-hover: rgba(0, 0, 0, 0.15);
+    --text: #1e293b;
+    --text-muted: #475569;
+    --text-dim: #94a3b8;
+    --accent: #6366f1;
+    --accent-bright: #8b5cf6;
+    --accent-glow: rgba(99, 102, 241, 0.2);
+    --success: #059669;
+    --error: #dc2626;
+    --dropzone-dash: rgba(0, 0, 0, 0.15);
+    --glow1: rgba(99, 102, 241, 0.08);
+    --glow2: rgba(168, 85, 247, 0.06);
+    --glow3: rgba(56, 189, 248, 0.05);
+    --drag-bg: rgba(99, 102, 241, 0.05);
+    --track-bg: rgba(0, 0, 0, 0.06);
+    --shimmer: rgba(255, 255, 255, 0.5);
+    --btn-hover-bg: rgba(0, 0, 0, 0.05);
+    --btn-dl-border: rgba(99, 102, 241, 0.3);
+    --btn-dl-hover-bg: rgba(99, 102, 241, 0.08);
+    --icon-pdf-bg: rgba(239, 68, 68, 0.1);
 }
 
 html {
@@ -53,7 +121,7 @@ body {
 .bg-glow-1 {
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%);
+    background: radial-gradient(circle, var(--glow1), transparent 70%);
     top: -150px;
     left: -100px;
     animation: float1 20s ease-in-out infinite;
@@ -62,7 +130,7 @@ body {
 .bg-glow-2 {
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.12), transparent 70%);
+    background: radial-gradient(circle, var(--glow2), transparent 70%);
     bottom: -100px;
     right: -80px;
     animation: float2 25s ease-in-out infinite;
@@ -71,7 +139,7 @@ body {
 .bg-glow-3 {
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(56, 189, 248, 0.08), transparent 70%);
+    background: radial-gradient(circle, var(--glow3), transparent 70%);
     top: 40%;
     left: 50%;
     animation: float3 18s ease-in-out infinite;
@@ -191,7 +259,7 @@ body {
     content: '';
     position: absolute;
     inset: 8px;
-    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border: 2px dashed var(--dropzone-dash);
     border-radius: calc(var(--radius) - 4px);
     pointer-events: none;
     transition: border-color var(--transition);
@@ -203,7 +271,7 @@ body {
 }
 
 .dropzone.drag-over {
-    background: rgba(99, 102, 241, 0.06);
+    background: var(--drag-bg);
     box-shadow: 0 0 40px var(--accent-glow);
 }
 
@@ -261,7 +329,7 @@ body {
 
 .progress-track {
     height: 6px;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--track-bg);
     border-radius: 3px;
     overflow: hidden;
 }
@@ -279,7 +347,7 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    background: linear-gradient(90deg, transparent, var(--shimmer), transparent);
     animation: shimmer 1.5s infinite;
 }
 
@@ -337,7 +405,7 @@ body {
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--btn-hover-bg);
     color: var(--text);
     border-color: var(--border-hover);
     transform: translateY(-1px);
@@ -347,11 +415,11 @@ body {
     background: transparent;
     color: var(--accent);
     padding: 6px 12px;
-    border: 1px solid rgba(99, 102, 241, 0.25);
+    border: 1px solid var(--btn-dl-border);
 }
 
 .btn-download:hover {
-    background: rgba(99, 102, 241, 0.1);
+    background: var(--btn-dl-hover-bg);
     border-color: var(--accent);
     transform: translateY(-1px);
 }
@@ -402,12 +470,12 @@ body {
 }
 
 .file-icon.pdf {
-    background: rgba(239, 68, 68, 0.12);
+    background: var(--icon-pdf-bg);
     color: #f87171;
 }
 
 .file-icon.error {
-    background: rgba(239, 68, 68, 0.12);
+    background: var(--icon-pdf-bg);
     color: #f87171;
 }
 
@@ -461,6 +529,83 @@ body {
 .footer a:hover {
     color: var(--accent-bright);
     text-decoration: underline;
+}
+
+/* ========== Theme Toggle ========== */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all var(--transition);
+}
+
+.theme-toggle:hover {
+    border-color: var(--border-hover);
+    color: var(--accent);
+    transform: scale(1.08);
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.4s ease;
+}
+
+.theme-toggle:hover svg {
+    transform: rotate(30deg);
+}
+
+.theme-icon-sun,
+.theme-icon-moon {
+    display: none;
+}
+
+/* Default (dark): show sun icon */
+.theme-icon-sun {
+    display: block;
+}
+
+.theme-icon-moon {
+    display: none;
+}
+
+[data-theme="light"] .theme-icon-sun {
+    display: none;
+}
+
+[data-theme="light"] .theme-icon-moon {
+    display: block;
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .theme-icon-sun {
+        display: none;
+    }
+
+    :root:not([data-theme="dark"]) .theme-icon-moon {
+        display: block;
+    }
+}
+
+[data-theme="dark"] .theme-icon-sun {
+    display: block;
+}
+
+[data-theme="dark"] .theme-icon-moon {
+    display: none;
 }
 
 /* ========== Utilities ========== */
