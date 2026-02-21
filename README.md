@@ -2,7 +2,7 @@
 
 A blazingly fast, multi-threaded command-line tool to convert `.dwfx` files to `.pdf` format using `libgxps`. 
 
-Includes a robust **Watch Mode** to auto-convert files as they are dropped into a directory.
+Includes a robust **Watch Mode** to auto-convert files as they are dropped into a directory
 
 ## Features
 - 🚀 **Multi-threaded**: Processes hundreds of files concurrently (configurable via `--workers`).
