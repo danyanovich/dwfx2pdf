@@ -54,6 +54,21 @@ dwfx2pdf watch --dwfx-dir ./drop_here --pdf-dir ./output
 ```
 The watch mode includes a debounce mechanism that safely waits for large files to finish copying before attempting conversion.
 
+### Web Interface (`web`)
+Launch a beautiful drag-and-drop web UI in your browser:
+```bash
+dwfx2pdf web --port 8080
+```
+Then open `http://localhost:8080` in your browser. You can drag `.dwfx` files onto the page and download the converted PDFs instantly.
+
+- `--port`: Port to run the server on (default: `8080`).
+- `--host`: Host to bind (default: `0.0.0.0`).
+
+**Quick start with the run script:**
+```bash
+./run.sh --web
+```
+
 ---
 
 ## Development

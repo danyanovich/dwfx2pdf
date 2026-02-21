@@ -249,7 +249,18 @@ def main() -> int:
     # Watch command
     sub.add_parser("watch", parents=[parent_parser], help="Watch the input folder and auto-convert new .dwfx files")
 
+    # Web command
+    web_parser = sub.add_parser("web", help="Start a web interface for drag-and-drop conversion")
+    web_parser.add_argument("--port", type=int, default=8080, help="Port to run the web server on (default: 8080)")
+    web_parser.add_argument("--host", default="0.0.0.0", help="Host to bind (default: 0.0.0.0)")
+
     args = parser.parse_args()
+
+    if args.cmd == "web":
+        from web_app import run_web
+        run_web(host=args.host, port=args.port)
+        return 0
+
     dwfx_dir = args.dwfx_dir
     pdf_dir = args.pdf_dir
 
