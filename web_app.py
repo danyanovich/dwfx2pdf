@@ -8,6 +8,7 @@ import zipfile
 from pathlib import Path
 
 from flask import Flask, jsonify, render_template, request, send_file
+from werkzeug.utils import secure_filename
 
 from dwfx_to_pdf import _run_xpstopdf
 
@@ -23,9 +24,11 @@ class WerkzeugFilter(logging.Filter):
 logging.getLogger("werkzeug").addFilter(WerkzeugFilter())
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100MB limit
 
-UPLOAD_DIR = Path("uploads")
-PDF_DIR = Path("pdf")
+BASE_DIR = Path(__file__).parent
+UPLOAD_DIR = BASE_DIR / "uploads"
+PDF_DIR = BASE_DIR / "pdf"
 
 
 def _ensure_dirs():
@@ -53,7 +56,15 @@ def upload():
     for f in files:
         if not f.filename:
             continue
-        original_name = f.filename
+        original_name = secure_filename(f.filename)
+        if not original_name:
+            results.append({
+                "name": f.filename,
+                "success": False,
+                "error": "Invalid filename",
+            })
+            continue
+
         if not original_name.lower().endswith(".dwfx"):
             results.append({
                 "name": original_name,
@@ -63,7 +74,8 @@ def upload():
             continue
 
         # Save uploaded file with unique prefix to avoid collisions
-        unique_id = uuid.uuid4().hex[:8]
+        hex_str: str = uuid.uuid4().hex
+        unique_id = hex_str[:8]
         safe_name = f"{unique_id}_{original_name}"
         upload_path = UPLOAD_DIR / safe_name
         f.save(upload_path)
@@ -95,12 +107,23 @@ def upload():
     return jsonify({"results": results})
 
 
-@app.route("/download/<path:filename>")
+@app.route("/download/<string:filename>")
 def download(filename):
-    pdf_path = PDF_DIR / filename
+    safe_name = secure_filename(filename)
+    if not safe_name:
+        return jsonify({"error": "Invalid filename"}), 400
+
+    pdf_path = PDF_DIR / safe_name
+    
+    # Extra safety check to prevent directory traversal
+    try:
+        pdf_path.resolve().relative_to(PDF_DIR.resolve())
+    except ValueError:
+         return jsonify({"error": "Access denied"}), 403
+
     if not pdf_path.exists():
         return jsonify({"error": "File not found"}), 404
-    return send_file(pdf_path, as_attachment=True, download_name=filename)
+    return send_file(pdf_path, as_attachment=True, download_name=safe_name)
 
 
 @app.route("/download-all", methods=["POST"])
@@ -114,9 +137,19 @@ def download_all():
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
         for name in filenames:
-            pdf_path = PDF_DIR / name
+            safe_name = secure_filename(name)
+            if not safe_name:
+                continue
+                
+            pdf_path = PDF_DIR / safe_name
+            # Extra safety check
+            try:
+                pdf_path.resolve().relative_to(PDF_DIR.resolve())
+            except ValueError:
+                 continue
+
             if pdf_path.exists():
-                zf.write(pdf_path, arcname=name)
+                zf.write(pdf_path, arcname=safe_name)
 
     buf.seek(0)
     return send_file(buf, as_attachment=True, download_name="converted.zip", mimetype="application/zip")

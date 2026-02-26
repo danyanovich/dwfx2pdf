@@ -16,14 +16,6 @@ except ImportError:
 
 # Configure logging
 logger = logging.getLogger(__name__)
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[
-        logging.StreamHandler(sys.stdout)
-    ]
-)
 
 
 def _which_or_none(cmd: str) -> str | None:
@@ -232,6 +224,14 @@ def watch(dwfx_dir: Path, pdf_dir: Path, *, overwrite: bool) -> None:
 
 
 def main() -> int:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+        handlers=[
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
     parser = argparse.ArgumentParser(description="Convert DWFX files to PDFs using libgxps")
     
     # Parent parser to share common arguments between "convert" and "watch"
